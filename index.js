@@ -47,9 +47,9 @@ function adapter(uri, opts){
   var sub = opts.subClient;
   var prefix = opts.key || 'socket.io';
 
-  var options = {
-    detect_buffers: true
-  };
+  var options = {};
+  if(opts.auth) options.auth_pass = opts.auth;
+
 
   // init clients if needed
   if (!pub) {
@@ -57,7 +57,7 @@ function adapter(uri, opts){
   }
 
   if (!sub) {
-      if(opts.auth) options.auth_pass = opts.auth;
+      options.detect_buffers = true;
       sub = socket ? redis(socket, options) : redis(port, host, options);
   }
 
